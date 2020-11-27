@@ -23,6 +23,10 @@ app.post(
     body("password", "Password is required").notEmpty()
   ],
   async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(403).json({ Errors: errors.array() });
+    }
     try {
       const userData = new User(req.body);
       const saltRounds = 10;
